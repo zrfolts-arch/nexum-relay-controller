@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 const serverControl = require("./server-control");
+const updates = require("./updates");
 
 let mainWindow = null;
 
@@ -39,6 +40,54 @@ ipcMain.handle("stop-server", () => {
 
 ipcMain.handle("get-status", () => {
   return serverControl.isRunning();
+});
+
+function sendUpdateLog(line) {
+  if (mainWindow) mainWindow.webContents.send("update-log", line);
+}
+
+ipcMain.handle("update-relay", async () => {
+  try {
+    await updates.updateRelay(sendUpdateLog);
+  } catch (err) {
+    sendUpdateLog(`ERROR: ${err.message}`);
+  }
+});
+
+ipcMain.handle("update-nexum", async () => {
+  try {
+    await updates.updateNexum(sendUpdateLog);
+  } catch (err) {
+    sendUpdateLog(`ERROR: ${err.message}`);
+  }
+});
+
+ipcMain.handle("update-controller", async () => {
+  try {
+    await updates.updateController(sendUpdateLog);
+    sendUpdateLog("Relaunching app...");
+    app.relaunch();
+    app.exit();
+  } catch (err) {
+    sendUpdateLog(`ERROR: ${err.message}`);
+  }
+});
+
+ipcMain.handle("update-all", async () => {
+  try {
+    await updates.updateNexum(sendUpdateLog);
+    await updates.updateRelay(sendUpdateLog);
+    await updates.updateController(sendUpdateLog);
+    sendUpdateLog("Relaunching app...");
+    app.relaunch();
+    app.exit();
+  } catch (err) {
+    sendUpdateLog(`ERROR: ${err.message}`);
+  }
+});
+
+ipcMain.handle("open-nexum", () => {
+  require("electron").shell.openExternal("http://localhost:3939");
 });
 
 app.on("window-all-closed", () => {

@@ -41,6 +41,18 @@
       overflow-y: auto;
       white-space: pre-wrap;
     }
+    #updateLog {
+      margin-top: 16px;
+      background: #000;
+      color: #7fd4ff;
+      font-family: monospace;
+      font-size: 12px;
+      padding: 10px;
+      height: 250px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+    h3 { margin-top: 0; }
   </style>
 </head>
 <body>
@@ -50,7 +62,28 @@
   </div>
   <button id="startBtn">Start Server</button>
   <button id="stopBtn">Stop Server</button>
+  <button id="openNexumBtn">Open Nexum in Browser</button>
   <div id="log"></div>
+
+  <hr style="margin: 24px 0; border-color: #333;" />
+
+  <h3>Updates</h3>
+  <button id="updateAllBtn">⟳ Update All</button>
+  <div style="margin-top: 12px; display: flex; gap: 24px;">
+    <div>
+      <p>Nexum Relay</p>
+      <button id="updateRelayBtn">Update</button>
+    </div>
+    <div>
+      <p>Nexum</p>
+      <button id="updateNexumBtn">Update</button>
+    </div>
+    <div>
+      <p>Relay Controller</p>
+      <button id="updateControllerBtn">Update</button>
+    </div>
+  </div>
+  <div id="updateLog"></div>
 
   <script src="renderer.js"></script>
 </body>

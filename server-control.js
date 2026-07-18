@@ -64,9 +64,22 @@ function stopServer() {
   spawn("taskkill", ["/pid", pid, "/f", "/t"]);
 }
 
+function stopServerAsync() {
+  return new Promise((resolve) => {
+    if (!relayProcess) {
+      resolve();
+      return;
+    }
+    const pid = relayProcess.pid;
+    relayProcess.once("close", () => resolve());
+    spawn("taskkill", ["/pid", pid, "/f", "/t"]);
+  });
+}
+
 module.exports = {
   startServer,
   stopServer,
+  stopServerAsync,
   isRunning,
   onLog,
   onStatusChange,

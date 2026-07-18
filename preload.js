@@ -6,4 +6,13 @@ contextBridge.exposeInMainWorld("serverControl", {
   getStatus: () => ipcRenderer.invoke("get-status"),
   onLog: (callback) => ipcRenderer.on("log-line", (_event, line) => callback(line)),
   onStatusChange: (callback) => ipcRenderer.on("status-change", (_event, isRunning) => callback(isRunning)),
+  openNexum: () => ipcRenderer.invoke("open-nexum"),
+});
+
+contextBridge.exposeInMainWorld("updater", {
+  updateRelay: () => ipcRenderer.invoke("update-relay"),
+  updateNexum: () => ipcRenderer.invoke("update-nexum"),
+  updateController: () => ipcRenderer.invoke("update-controller"),
+  updateAll: () => ipcRenderer.invoke("update-all"),
+  onUpdateLog: (callback) => ipcRenderer.on("update-log", (_event, line) => callback(line)),
 });
