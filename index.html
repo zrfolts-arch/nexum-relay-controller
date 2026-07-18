@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Nexum Relay Controller</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #0a0f1a;
+      color: #c8e6ff;
+      padding: 20px;
+    }
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .status-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #ff4d6d;
+    }
+    .status-dot.running {
+      background: #00ff8c;
+    }
+    button {
+      padding: 8px 16px;
+      margin-right: 8px;
+      cursor: pointer;
+    }
+    #log {
+      margin-top: 16px;
+      background: #000;
+      color: #0f0;
+      font-family: monospace;
+      font-size: 12px;
+      padding: 10px;
+      height: 350px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="status-row">
+    <div id="statusDot" class="status-dot"></div>
+    <span id="statusText">Stopped</span>
+  </div>
+  <button id="startBtn">Start Server</button>
+  <button id="stopBtn">Stop Server</button>
+  <div id="log"></div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
