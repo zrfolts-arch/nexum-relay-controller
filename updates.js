@@ -1,37 +1,48 @@
+const fs = require("fs");
+const path = require("path");
 const config = require("./config.json");
 const updater = require("./updater");
 const serverControl = require("./server-control");
 
+const logFilePath = path.join(__dirname, "update-log.txt");
+
+function logToFile(line) {
+  fs.appendFileSync(logFilePath, line + "\n");
+}
+
 async function updateRelay(onLog) {
-  onLog("=== Updating Nexum Relay ===");
+  const log = (line) => { onLog(line); logToFile(line); };
+  log("=== Updating Nexum Relay ===");
 
   const wasRunning = serverControl.isRunning();
   if (wasRunning) {
-    onLog("Stopping server before update...");
+    log("Stopping server before update...");
     await serverControl.stopServerAsync();
   }
 
-  await updater.pullAndInstall(config.relayPath, onLog);
+  await updater.pullAndInstall(config.relayPath, log);
 
   if (wasRunning) {
-    onLog("Restarting server...");
+    log("Restarting server...");
     serverControl.startServer();
   }
 
-  onLog("=== Nexum Relay update complete ===");
+  log("=== Nexum Relay update complete ===");
 }
 
 async function updateNexum(onLog) {
-  onLog("=== Updating Nexum ===");
-  await updater.pullAndInstall(config.nexumPath, onLog);
-  await updater.runBuild(config.nexumPath, onLog);
-  onLog("=== Nexum update complete (rebuilt) ===");
+  const log = (line) => { onLog(line); logToFile(line); };
+  log("=== Updating Nexum ===");
+  await updater.pullAndInstall(config.nexumPath, log);
+  await updater.runBuild(config.nexumPath, log);
+  log("=== Nexum update complete (rebuilt) ===");
 }
 
 async function updateController(onLog) {
-  onLog("=== Updating Relay Controller ===");
-  await updater.pullAndInstall(config.controllerPath, onLog);
-  onLog("=== Controller update complete — restarting app ===");
+  const log = (line) => { onLog(line); logToFile(line); };
+  log("=== Updating Relay Controller ===");
+  await updater.pullAndInstall(config.controllerPath, log);
+  log("=== Controller update complete — restarting app ===");
 }
 
 module.exports = {
