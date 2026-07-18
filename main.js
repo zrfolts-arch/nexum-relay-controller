@@ -64,6 +64,10 @@ ipcMain.handle("update-nexum", async () => {
 
 ipcMain.handle("update-controller", async () => {
   try {
+    if (serverControl.isRunning()) {
+      sendUpdateLog("Stopping server before restart...");
+      await serverControl.stopServerAsync();
+    }
     await updates.updateController(sendUpdateLog);
     sendUpdateLog("Relaunching app...");
     app.relaunch();
@@ -77,6 +81,10 @@ ipcMain.handle("update-all", async () => {
   try {
     await updates.updateNexum(sendUpdateLog);
     await updates.updateRelay(sendUpdateLog);
+    if (serverControl.isRunning()) {
+      sendUpdateLog("Stopping server before restart...");
+      await serverControl.stopServerAsync();
+    }
     await updates.updateController(sendUpdateLog);
     sendUpdateLog("Relaunching app...");
     app.relaunch();
