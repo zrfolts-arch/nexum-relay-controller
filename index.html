@@ -63,7 +63,21 @@
   <button id="startBtn">Start Server</button>
   <button id="stopBtn">Stop Server</button>
   <button id="openNexumBtn">Open Nexum in Browser</button>
+  <button id="openAdminBtn">Open Admin Panel</button>
   <div id="log"></div>
+
+  <hr style="margin: 24px 0; border-color: #333;" />
+
+  <h3>Discord Alerts</h3>
+  <p style="font-size: 12px; color: #999;">Paste your Discord webhook URL to get alerts when the server goes down or comes back up.</p>
+  <input
+    id="webhookInput"
+    type="text"
+    placeholder="https://discord.com/api/webhooks/..."
+    style="width: 100%; padding: 8px; box-sizing: border-box; background: #111; color: #7fd4ff; border: 1px solid #333; border-radius: 4px;"
+  />
+  <button id="saveWebhookBtn" style="margin-top: 8px;">Save Webhook</button>
+  <span id="webhookSavedMsg" style="color: #0f0; margin-left: 10px; display: none;">Saved!</span>
 
   <hr style="margin: 24px 0; border-color: #333;" />
 

@@ -38,6 +38,24 @@ document.getElementById("openNexumBtn").addEventListener("click", () => {
   window.serverControl.openNexum();
 });
 
+document.getElementById("openAdminBtn").addEventListener("click", () => {
+  window.serverControl.openAdmin();
+});
+
+const webhookInput = document.getElementById("webhookInput");
+const saveWebhookBtn = document.getElementById("saveWebhookBtn");
+const webhookSavedMsg = document.getElementById("webhookSavedMsg");
+
+window.serverControl.getDiscordWebhook().then((url) => {
+  webhookInput.value = url;
+});
+
+saveWebhookBtn.addEventListener("click", async () => {
+  await window.serverControl.saveDiscordWebhook(webhookInput.value.trim());
+  webhookSavedMsg.style.display = "inline";
+  setTimeout(() => { webhookSavedMsg.style.display = "none"; }, 2000);
+});
+
 document.getElementById("updateRelayBtn").addEventListener("click", () => {
   appendUpdateLog("Starting Relay update...");
   window.updater.updateRelay();

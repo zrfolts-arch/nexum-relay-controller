@@ -7,6 +7,9 @@ contextBridge.exposeInMainWorld("serverControl", {
   onLog: (callback) => ipcRenderer.on("log-line", (_event, line) => callback(line)),
   onStatusChange: (callback) => ipcRenderer.on("status-change", (_event, isRunning) => callback(isRunning)),
   openNexum: () => ipcRenderer.invoke("open-nexum"),
+  openAdmin: () => ipcRenderer.invoke("open-admin"),
+  getDiscordWebhook: () => ipcRenderer.invoke("get-discord-webhook"),
+  saveDiscordWebhook: (url) => ipcRenderer.invoke("save-discord-webhook", url),
 });
 
 contextBridge.exposeInMainWorld("updater", {
