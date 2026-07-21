@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 const serverControl = require("./server-control");
 const updates = require("./updates");
+const discordMonitor = require("./discord-monitor");
 
 const fs = require("fs");
 
@@ -43,13 +44,17 @@ app.whenReady().then(() => {
   serverControl.onStatusChange((isRunning) => {
     if (mainWindow) mainWindow.webContents.send("status-change", isRunning);
   });
+
+  discordMonitor.startMonitoring();
 });
 
 ipcMain.handle("start-server", () => {
+  discordMonitor.suppressAlertsFor(15000);
   serverControl.startServer();
 });
 
 ipcMain.handle("stop-server", () => {
+  discordMonitor.suppressAlertsFor(15000);
   serverControl.stopServer();
 });
 
@@ -63,6 +68,7 @@ function sendUpdateLog(line) {
 
 ipcMain.handle("update-relay", async () => {
   try {
+    discordMonitor.suppressAlertsFor(30000);
     await updates.updateRelay(sendUpdateLog);
   } catch (err) {
     sendUpdateLog(`ERROR: ${err.message}`);
@@ -79,6 +85,7 @@ ipcMain.handle("update-nexum", async () => {
 
 ipcMain.handle("update-controller", async () => {
   try {
+    discordMonitor.suppressAlertsFor(30000);
     if (serverControl.isRunning()) {
       sendUpdateLog("Stopping server before restart...");
       await serverControl.stopServerAsync();
@@ -94,6 +101,7 @@ ipcMain.handle("update-controller", async () => {
 
 ipcMain.handle("update-all", async () => {
   try {
+    discordMonitor.suppressAlertsFor(60000);
     await updates.updateNexum(sendUpdateLog);
     await updates.updateRelay(sendUpdateLog);
     if (serverControl.isRunning()) {
