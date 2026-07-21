@@ -56,6 +56,27 @@ saveWebhookBtn.addEventListener("click", async () => {
   setTimeout(() => { webhookSavedMsg.style.display = "none"; }, 2000);
 });
 
+const testWebhookBtn = document.getElementById("testWebhookBtn");
+const webhookTestMsg = document.getElementById("webhookTestMsg");
+
+testWebhookBtn.addEventListener("click", async () => {
+  webhookTestMsg.style.display = "inline";
+  webhookTestMsg.style.color = "#7fd4ff";
+  webhookTestMsg.textContent = "Sending...";
+
+  const result = await window.serverControl.testDiscordWebhook();
+
+  if (result.success) {
+    webhookTestMsg.style.color = "#0f0";
+    webhookTestMsg.textContent = "Sent! Check Discord.";
+  } else {
+    webhookTestMsg.style.color = "#ff4d6d";
+    webhookTestMsg.textContent = `Failed: ${result.error}`;
+  }
+
+  setTimeout(() => { webhookTestMsg.style.display = "none"; }, 4000);
+});
+
 document.getElementById("updateRelayBtn").addEventListener("click", () => {
   appendUpdateLog("Starting Relay update...");
   window.updater.updateRelay();

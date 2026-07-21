@@ -123,6 +123,31 @@ ipcMain.handle("save-discord-webhook", (event, webhookUrl) => {
   return true;
 });
 
+ipcMain.handle("test-discord-webhook", async () => {
+  const config = readConfig();
+  const webhookUrl = config.discordWebhookUrl;
+
+  if (!webhookUrl) {
+    return { success: false, error: "No webhook URL saved yet." };
+  }
+
+  try {
+    const response = await fetch(webhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content: "✅ Server Bot Test" }),
+    });
+
+    if (!response.ok) {
+      return { success: false, error: `Discord responded with status ${response.status}` };
+    }
+
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") app.quit();
 });

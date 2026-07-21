@@ -10,6 +10,7 @@ contextBridge.exposeInMainWorld("serverControl", {
   openAdmin: () => ipcRenderer.invoke("open-admin"),
   getDiscordWebhook: () => ipcRenderer.invoke("get-discord-webhook"),
   saveDiscordWebhook: (url) => ipcRenderer.invoke("save-discord-webhook", url),
+  testDiscordWebhook: () => ipcRenderer.invoke("test-discord-webhook"),
 });
 
 contextBridge.exposeInMainWorld("updater", {
