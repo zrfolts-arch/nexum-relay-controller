@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const { spawn } = require("child_process");
 const config = require("./config.json");
 const updater = require("./updater");
 const serverControl = require("./server-control");
@@ -45,8 +46,37 @@ async function updateController(onLog) {
   log("=== Controller update complete — restarting app ===");
 }
 
+async function downloadPokemonSymbols(onLog) {
+  const log = (line) => { onLog(line); logToFile(line); };
+  log("=== Downloading Pokémon Set Symbols ===");
+
+  await new Promise((resolve, reject) => {
+    const child = spawn("node", ["scripts/download-pokemon-symbols.js"], {
+      cwd: config.relayPath,
+      shell: true,
+    });
+
+    child.stdout.on("data", (data) => {
+      data.toString().split("\n").filter(Boolean).forEach(log);
+    });
+    child.stderr.on("data", (data) => {
+      data.toString().split("\n").filter(Boolean).forEach(log);
+    });
+
+    child.on("close", (code) => {
+      if (code === 0) resolve();
+      else reject(new Error(`Symbol download exited with code ${code}`));
+    });
+
+    child.on("error", (err) => reject(err));
+  });
+
+  log("=== Pokémon symbol download complete ===");
+}
+
 module.exports = {
   updateRelay,
   updateNexum,
   updateController,
+  downloadPokemonSymbols,
 };

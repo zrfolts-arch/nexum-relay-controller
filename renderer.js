@@ -97,6 +97,11 @@ document.getElementById("updateAllBtn").addEventListener("click", () => {
   window.updater.updateAll();
 });
 
+document.getElementById("downloadSymbolsBtn").addEventListener("click", () => {
+  appendUpdateLog("Starting Pokémon symbol download...");
+  window.updater.downloadPokemonSymbols();
+});
+
 window.updater.onUpdateLog((line) => {
   appendUpdateLog(line);
 });

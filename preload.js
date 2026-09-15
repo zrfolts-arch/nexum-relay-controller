@@ -18,5 +18,6 @@ contextBridge.exposeInMainWorld("updater", {
   updateNexum: () => ipcRenderer.invoke("update-nexum"),
   updateController: () => ipcRenderer.invoke("update-controller"),
   updateAll: () => ipcRenderer.invoke("update-all"),
+  downloadPokemonSymbols: () => ipcRenderer.invoke("download-pokemon-symbols"),
   onUpdateLog: (callback) => ipcRenderer.on("update-log", (_event, line) => callback(line)),
 });
