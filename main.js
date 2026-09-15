@@ -121,6 +121,10 @@ ipcMain.handle("open-nexum", () => {
   require("electron").shell.openExternal("http://localhost:3939");
 });
 
+ipcMain.handle("open-admin", () => {
+  require("electron").shell.openExternal("http://localhost:3939/dashboard");
+});
+
 ipcMain.handle("get-discord-webhook", () => {
   const config = readConfig();
   return config.discordWebhookUrl || "";

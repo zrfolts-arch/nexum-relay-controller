@@ -2,5 +2,6 @@
   "relayPath": "C:\\Users\\zacfo\\Desktop\\Projects\\nexum-relay",
   "relayEntryFile": "index.js",
   "nexumPath": "C:\\Users\\zacfo\\Desktop\\Projects\\nexum",
-  "controllerPath": "C:\\Users\\zacfo\\Desktop\\Projects\\nexum-relay-controller"
+  "controllerPath": "C:\\Users\\zacfo\\Desktop\\Projects\\nexum-relay-controller",
+  "discordWebhookUrl": "https://discord.com/api/webhooks/1529059099466272868/NqxkxoBsWgc7gdlQThhId9CAGZgZI-OE3zsnLyW6iR02Kq7LUshpP1N9pGGtdQrGbWJv"
 }
