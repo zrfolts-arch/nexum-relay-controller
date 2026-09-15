@@ -117,6 +117,14 @@ ipcMain.handle("update-all", async () => {
   }
 });
 
+ipcMain.handle("download-pokemon-symbols", async () => {
+  try {
+    await updates.downloadPokemonSymbols(sendUpdateLog);
+  } catch (err) {
+    sendUpdateLog(`ERROR: ${err.message}`);
+  }
+});
+
 ipcMain.handle("open-nexum", () => {
   require("electron").shell.openExternal("http://localhost:3939");
 });
